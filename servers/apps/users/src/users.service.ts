@@ -157,6 +157,14 @@ export class UsersService {
     return await bcrypt.compare(password, hashedPassword);
   }
 
+  // get logged in user
+  async getLoggedInUser(req: any){
+    const user = req.user;
+    const refreshToken = req.refreshtoken;
+    const accessToken = req.accesstoken;
+    return {user, accessToken, refreshToken}
+  }
+
   async getUsers() {
     return this.prisma.user.findMany();
   }
