@@ -67,7 +67,7 @@ export class UsersService {
       name,
       activationCode,
     });
-    return { activationToken: activateToken.token, response };
+    return { activation_token: activateToken.token, response };
   }
 
   // create activation token
@@ -163,6 +163,13 @@ export class UsersService {
     const refreshToken = req.refreshtoken;
     const accessToken = req.accesstoken;
     return {user, accessToken, refreshToken}
+  }
+
+  async Logout(req: any){
+    req.user = null;
+    req.refreshtoken = null;
+    req.accesstoken = null;
+    return {message: 'Logged out successfylly!'};
   }
 
   async getUsers() {

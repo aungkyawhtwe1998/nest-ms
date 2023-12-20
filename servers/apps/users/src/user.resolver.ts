@@ -1,6 +1,6 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { ActivationResponse, LoginResponse, RegisterResponse } from './types/user.type';
+import { ActivationResponse, LoginResponse, LogoutResponse, RegisterResponse } from './types/user.type';
 import { ActivationDto, RegisterDto } from './dto/user.dto';
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { User } from './entities/user.entity';
@@ -20,11 +20,11 @@ export class UsersResolver {
       throw new BadRequestException('Please fill the all fields');
     }
 
-    const { activationToken } = await this.userService.register(
+    const { activation_token } = await this.userService.register(
       registerDto,
       context.res,
     );
-    return { activationToken };
+    return { activation_token };
   }
 
   @Mutation(() => ActivationResponse)
@@ -48,6 +48,13 @@ export class UsersResolver {
   async getLoggedInUser(@Context() context: {req: Request}) {
     return await this.userService.getLoggedInUser(context.req);
   }
+
+  @Query(()=> LogoutResponse)
+  @UseGuards(AuthGuard)
+  async LogOutUser(@Context() context: {req: Request}) {
+    return await this.userService.Logout(context.req);
+  }
+
 
   @Query(() => [User])
   async getUsers() {

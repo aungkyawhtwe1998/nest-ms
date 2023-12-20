@@ -13,7 +13,7 @@ export class ErrorType{
 @ObjectType()
 export class RegisterResponse {
     @Field()
-    activationToken:string
+    activation_token:string
 
     @Field(()=> ErrorType, {nullable: true})
     error?: ErrorType
@@ -41,4 +41,11 @@ export class LoginResponse {
 
     @Field(()=> ErrorType, {nullable: true})
     error?: ErrorType
+}
+
+@ObjectType()
+export class LogoutResponse {
+    
+    @Field()
+    message?: string;
 }
